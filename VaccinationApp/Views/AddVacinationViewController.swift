@@ -13,6 +13,7 @@ class AddVaccinationViewController: UIViewController {
     init(vaccine: Vaccine) {
         self.vaccine = vaccine
         super.init(nibName: nil, bundle: nil)
+        modalPresentationStyle = .pageSheet
     }
     
     required init?(coder: NSCoder) {
@@ -21,6 +22,24 @@ class AddVaccinationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 0xFA/255.0, green: 0xF5/255.0, blue: 0xEB/255.0, alpha: 1.0)
+        view.backgroundColor = Constants.Colors.background
+        setupNavigationBar()
+    }
+    
+    private func setupNavigationBar() {
+        navigationItem.title = "Lägg till dos"
+        let close = UIBarButtonItem(
+            image: UIImage(systemName: "xmark"),
+            style: .plain,
+            target: self,
+            action: #selector(close)
+        )
+        close.tintColor = .label
+        navigationItem.leftBarButtonItem = close
+        navigationController?.navigationBar.tintColor = .label
+    }
+    
+    @objc private func close() {
+        dismiss(animated: false, completion: nil)
     }
 }
