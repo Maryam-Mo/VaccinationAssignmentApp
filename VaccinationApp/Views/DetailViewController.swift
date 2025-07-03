@@ -17,6 +17,7 @@ class DetailViewController: UIViewController {
     private let sectionLabel = UILabel()
     private var nextDoseView: NextDoseView?
     private let dosesStack = UIStackView()
+    private let addButton = UIButton(type: .system)
     
     init(viewModel: DetailViewModel) {
         self.viewModel = viewModel
@@ -36,11 +37,13 @@ class DetailViewController: UIViewController {
         setupSectionLabel()
         setupNextDoseSection()
         setupTakenDoses()
+        setupAddButton()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         linkButton.layer.cornerRadius = linkButton.bounds.height / 2
+        addButton.layer.cornerRadius = addButton.bounds.height / 2
     }
     
     override func viewDidLoad() {
@@ -174,6 +177,28 @@ class DetailViewController: UIViewController {
         ])
     }
     
+    private func setupAddButton() {
+        addButton.setTitle(Constants.Strings.addDose, for: .normal)
+        addButton.titleLabel?.font = Constants.Fonts.subtitle
+        addButton.setTitleColor(.white, for: .normal)
+        addButton.backgroundColor = Constants.Colors.darkGreen
+        addButton.translatesAutoresizingMaskIntoConstraints = false
+        addButton.clipsToBounds = true
+        addButton.addTarget(self, action: #selector(addDose), for: .touchUpInside)
+        view.addSubview(addButton)
+        
+        NSLayoutConstraint.activate([
+            addButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.Spacing.padding),
+            addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.Spacing.padding),
+            addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.Spacing.padding),
+            addButton.heightAnchor.constraint(equalToConstant: Constants.Spacing.buttonHeight),
+        ])
+        
+        scrollView.contentInset.bottom = Constants.Spacing.buttonHeight + Constants.Spacing.padding + view.safeAreaInsets.bottom
+        scrollView.scrollIndicatorInsets.bottom = scrollView.contentInset.bottom
+    }
+    
+    
     private func reloadDoseRows() {
         loadViewIfNeeded()
         dosesStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
@@ -195,5 +220,8 @@ class DetailViewController: UIViewController {
         let target = CGSize(width: width, height: UIView.layoutFittingCompressedSize.height)
         return view.systemLayoutSizeFitting(target, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel
         ).height
+    }
+    
+    @objc private func addDose() {
     }
 }

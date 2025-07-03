@@ -24,6 +24,7 @@ struct Constants {
         static let doseTitle = UIFont.systemFont(ofSize: 16, weight: .semibold)
         static let doseSubtitle = UIFont.systemFont(ofSize: 14, weight: .regular)
         static let doseLightSubtitle = UIFont.systemFont(ofSize: 12, weight: .light)
+        static let subtitle = UIFont.systemFont(ofSize: 16, weight: .regular)
     }
     
     struct Strings {
@@ -37,11 +38,13 @@ struct Constants {
         static let date = "Datum"
         static let clinic = "Klinik"
         static let byYou = "Tillagd av dig"
+        static let addDose = "Lägg till dos"
     }
     
     struct Spacing {
         static let cellAspectRatio: CGFloat = 0.6
         static let padding: CGFloat = 16
+        static let buttonHeight: CGFloat = 48
     }
     
     struct Identifiers {
