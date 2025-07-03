@@ -1,0 +1,32 @@
+//
+//  Constants.swift
+//  VaccinationApp
+//
+//  Created by Maryam on 7/3/25.
+//
+
+import UIKit
+
+struct Constants {
+    struct Colors {
+        static let background = UIColor(hex: 0xFAF5EB)
+    }
+    
+    struct Fonts {
+        static let regularTitle = UIFont.systemFont(ofSize: 18, weight: .regular)
+        static let regularSubtitle = UIFont.systemFont(ofSize: 15, weight: .regular)
+    }
+    
+    struct Strings {
+        static let vaccination = "Vaccinationer"
+        static let takenDoses = "Tagna doser"
+    }
+    
+    struct Spacing {
+        static let cellAspectRatio: CGFloat = 0.6
+    }
+    
+    struct Identifiers {
+        static let vaccineCell = "VaccineCell"
+    }
+}

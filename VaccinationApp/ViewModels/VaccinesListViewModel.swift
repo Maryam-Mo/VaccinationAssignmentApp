@@ -105,4 +105,7 @@ class VaccinesListViewModel {
             }
         )
     ]
+    
+    var count: Int { vaccines.count }
+    func vaccine(at index: Int) -> Vaccine { vaccines[index] }
 }
