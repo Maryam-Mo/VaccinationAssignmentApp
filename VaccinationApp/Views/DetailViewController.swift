@@ -139,11 +139,19 @@ class DetailViewController: UIViewController {
             contentView.addSubview(banner)
             nextDoseView = banner
             
+            var rowHeight = 0
+            let width = view.bounds.width - 32
+            if !viewModel.vaccine.dosesWithClinic.isEmpty, let doseWithClinic = viewModel.vaccine.dosesWithClinic.first {
+                rowHeight = Int(measureRowHeight(for: doseWithClinic, width: width))
+            } else if let dose = viewModel.vaccine.doses.first {
+                rowHeight = Int(measureRowHeight(for: dose, width: width))
+            }
+            
             NSLayoutConstraint.activate([
                 banner.topAnchor.constraint(equalTo: sectionLabel.bottomAnchor, constant: Constants.Spacing.padding),
                 banner.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.Spacing.padding),
                 banner.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.Spacing.padding),
-                banner.heightAnchor.constraint(equalToConstant: CGFloat(100))
+                banner.heightAnchor.constraint(equalToConstant: CGFloat(rowHeight))
             ])
         }
     }
@@ -176,5 +184,16 @@ class DetailViewController: UIViewController {
     @objc private func openDoktor() {
         guard let url = URL(string: Constants.Strings.url) else { return }
         UIApplication.shared.open(url)
+    }
+    
+    private func measureRowHeight(for dose: Dose, width: CGFloat) -> CGFloat {
+        let view = DoseView(dose: dose)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.widthAnchor.constraint(equalToConstant: width).isActive = true
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
+        let target = CGSize(width: width, height: UIView.layoutFittingCompressedSize.height)
+        return view.systemLayoutSizeFitting(target, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel
+        ).height
     }
 }
