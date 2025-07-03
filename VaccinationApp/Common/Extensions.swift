@@ -17,6 +17,20 @@ extension UIColor {
     }
 }
 
+class PaddedTextField: UITextField {
+    var textInsets = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
+    
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+        bounds.inset(by: textInsets)
+    }
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        bounds.inset(by: textInsets)
+    }
+    override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        bounds.inset(by: textInsets)
+    }
+}
+
 extension Date {
     static func from(year: Int, month: Int, day: Int) -> Date {
         var components = DateComponents()

@@ -39,6 +39,11 @@ struct Constants {
         static let clinic = "Klinik"
         static let byYou = "Tillagd av dig"
         static let addDose = "Lägg till dos"
+        static let selectDose = "Välj dos"
+        static let selectDate = "Välj datum"
+        static let clinicPlaceholder = "Ange klinikens namn"
+        static let save = "Spara"
+        static let dateAb = "YYYY - MM - DD"
     }
     
     struct Spacing {
