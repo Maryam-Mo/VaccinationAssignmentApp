@@ -65,6 +65,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="GVb-cA-zuq"/>
+                    <connections>
+                        <outlet property="collectionView" destination="Q8f-NF-GfP" id="cj2-rn-QO9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
