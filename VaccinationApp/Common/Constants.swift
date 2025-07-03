@@ -27,6 +27,7 @@ struct Constants {
         static let username = "Maryam Moein"
         static let readMore = "Läs mer på Doktor.se  "
         static let url = "https://doktor.se"
+        static let appliedDoses = "Genomförda doser"
     }
     
     struct Spacing {

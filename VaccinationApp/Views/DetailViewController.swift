@@ -14,7 +14,8 @@ class DetailViewController: UIViewController {
     private let nameLabel = UILabel()
     private let titleLabel = UILabel()
     private let linkButton = UIButton(type: .system)
-
+    private let sectionLabel = UILabel()
+    
     init(vaccine: Vaccine) {
         self.vaccine = vaccine
         super.init(nibName: nil, bundle: nil)
@@ -30,11 +31,12 @@ class DetailViewController: UIViewController {
         setupScrollView()
         setupHeader()
         setupLinkButton()
+        setupSectionLabel()
     }
     
     override func viewDidLayoutSubviews() {
-      super.viewDidLayoutSubviews()
-      linkButton.layer.cornerRadius = linkButton.bounds.height / 2
+        super.viewDidLayoutSubviews()
+        linkButton.layer.cornerRadius = linkButton.bounds.height / 2
     }
     
     override func viewDidLoad() {
@@ -105,8 +107,22 @@ class DetailViewController: UIViewController {
         contentView.addSubview(linkButton)
         
         NSLayoutConstraint.activate([
-          linkButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-          linkButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.Spacing.padding),
+            linkButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            linkButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.Spacing.padding),
+        ])
+    }
+    
+    private func setupSectionLabel() {
+        guard !vaccine.takenDoses.isEmpty else { return }
+        
+        sectionLabel.font = Constants.Fonts.regularTitle
+        sectionLabel.text = Constants.Strings.appliedDoses
+        sectionLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(sectionLabel)
+        
+        NSLayoutConstraint.activate([
+            sectionLabel.topAnchor.constraint(equalTo: linkButton.bottomAnchor, constant: 20),
+            sectionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.Spacing.padding),
         ])
     }
     
