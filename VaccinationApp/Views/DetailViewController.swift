@@ -223,5 +223,22 @@ class DetailViewController: UIViewController {
     }
     
     @objc private func addDose() {
+        let addVC = AddVaccinationViewController(vaccine: viewModel.vaccine)
+        let nav = UINavigationController(rootViewController: addVC)
+        nav.modalPresentationStyle = .pageSheet
+        if let sheet = nav.sheetPresentationController {
+            let hundredPercent = UISheetPresentationController.Detent.custom(
+                identifier: .init("hundredPercent")
+            ) { context in
+                return context.maximumDetentValue * 1
+            }
+            
+            sheet.detents = [hundredPercent, .large()]
+            
+            sheet.selectedDetentIdentifier = hundredPercent.identifier
+            
+            sheet.preferredCornerRadius = 16
+        }
+        present(nav, animated: false, completion: nil)
     }
 }
