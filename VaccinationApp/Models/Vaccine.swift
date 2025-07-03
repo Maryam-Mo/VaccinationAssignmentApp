@@ -7,8 +7,7 @@
 
 import Foundation
 
-struct Vaccine: Identifiable, Equatable  {
-    
+struct Vaccine: Identifiable, Equatable {
     let id: UUID
     let name: String
     var doses: [Dose]
