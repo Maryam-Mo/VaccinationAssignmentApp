@@ -21,6 +21,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         super.init(coder: coder)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+      super.viewWillAppear(animated)
+      collectionView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.

@@ -28,4 +28,10 @@ class DetailViewModel {
     var lastTakenDate: Date? {
         vaccine.takenDoses.last?.date
     }
+    
+    func addDose(dose: Dose) {
+        var vaccine = vaccine
+        vaccine.doses.append(dose)
+        vaccinesListVM.vaccines[index] = vaccine
+    }
 }

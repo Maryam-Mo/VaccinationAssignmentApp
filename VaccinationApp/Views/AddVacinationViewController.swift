@@ -11,6 +11,7 @@ class AddVaccinationViewController: UIViewController {
     private let vaccine: Vaccine
     private var selectedDose: String?
     private var selectedDate: Date?
+    weak var delegate: AddVaccinationDelegate?
     private let nameLabel = UILabel()
     private let titleLabel = UILabel()
     private let doseFieldLabel = UILabel()
@@ -213,5 +214,6 @@ class AddVaccinationViewController: UIViewController {
         guard let title = selectedDose, let date = selectedDate else { return }
         let clinic = clinicField.text?.isEmpty == false ? clinicField.text : nil
         let dose = Dose(title: title, addedBy: Constants.Strings.byYou, date: date, clinic: clinic)
+        delegate?.addVaccinationViewController(vc: self, dose: dose)
     }
 }

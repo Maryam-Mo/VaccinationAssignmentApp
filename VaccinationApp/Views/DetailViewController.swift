@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, AddVaccinationDelegate {
     private let viewModel: DetailViewModel
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -239,6 +239,13 @@ class DetailViewController: UIViewController {
             
             sheet.preferredCornerRadius = 16
         }
+        addVC.delegate = self
         present(nav, animated: false, completion: nil)
+    }
+    
+    func addVaccinationViewController(vc: AddVaccinationViewController, dose: Dose) {
+        vc.dismiss(animated: true)
+        viewModel.addDose(dose: dose)
+        reloadDoseRows()
     }
 }
