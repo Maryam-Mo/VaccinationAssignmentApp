@@ -202,8 +202,9 @@ class DetailViewController: UIViewController, AddVaccinationDelegate {
     private func reloadDoseRows() {
         loadViewIfNeeded()
         dosesStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        viewModel.vaccine.takenDoses
-            .forEach { dosesStack.addArrangedSubview(DoseView(dose: $0)) }
+        let sorted = viewModel.vaccine.takenDoses
+          .sorted { $0.date! > $1.date! }
+        sorted.forEach { dosesStack.addArrangedSubview(DoseView(dose: $0)) }
     }
     
     @objc private func openDoktor() {
