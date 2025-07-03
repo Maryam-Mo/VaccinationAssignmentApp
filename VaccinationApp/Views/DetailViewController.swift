@@ -13,7 +13,8 @@ class DetailViewController: UIViewController {
     private let contentView = UIView()
     private let nameLabel = UILabel()
     private let titleLabel = UILabel()
-    
+    private let linkButton = UIButton(type: .system)
+
     init(vaccine: Vaccine) {
         self.vaccine = vaccine
         super.init(nibName: nil, bundle: nil)
@@ -28,6 +29,12 @@ class DetailViewController: UIViewController {
         view.backgroundColor = Constants.Colors.background
         setupScrollView()
         setupHeader()
+        setupLinkButton()
+    }
+    
+    override func viewDidLayoutSubviews() {
+      super.viewDidLayoutSubviews()
+      linkButton.layer.cornerRadius = linkButton.bounds.height / 2
     }
     
     override func viewDidLoad() {
@@ -74,5 +81,37 @@ class DetailViewController: UIViewController {
             titleLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.Spacing.padding),
         ])
+    }
+    
+    private func setupLinkButton() {
+        linkButton.translatesAutoresizingMaskIntoConstraints = false
+        linkButton.setTitle(Constants.Strings.readMore, for: .normal)
+        linkButton.titleLabel?.font = Constants.Fonts.linkButton
+        linkButton.setTitleColor(.black, for: .normal)
+        linkButton.layer.cornerRadius = linkButton.bounds.size.height / 2
+        linkButton.layer.borderWidth = 2
+        linkButton.layer.borderColor = Constants.Colors.darkGreen.cgColor
+        linkButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 12)
+        linkButton.clipsToBounds = true
+        let icon = UIImage(
+            systemName: "arrow.up.right.square",
+            withConfiguration: UIImage.SymbolConfiguration(pointSize: 12, weight: .medium)
+        )
+        linkButton.setImage(icon, for: .normal)
+        linkButton.tintColor = .black
+        linkButton.semanticContentAttribute = .forceRightToLeft
+        linkButton.showsMenuAsPrimaryAction = false
+        linkButton.addTarget(self, action: #selector(openDoktor), for: .touchUpInside)
+        contentView.addSubview(linkButton)
+        
+        NSLayoutConstraint.activate([
+          linkButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+          linkButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.Spacing.padding),
+        ])
+    }
+    
+    @objc private func openDoktor() {
+        guard let url = URL(string: Constants.Strings.url) else { return }
+        UIApplication.shared.open(url)
     }
 }
