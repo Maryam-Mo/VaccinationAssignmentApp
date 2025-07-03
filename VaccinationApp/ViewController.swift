@@ -73,8 +73,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func collectionView(_ cv: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vaccine = viewModel.vaccine(at: indexPath.item)
-        let detailVC = DetailViewController(vaccine: vaccine)
-      navigationController?.pushViewController(detailVC, animated: true)
+        let detailVM = DetailViewModel(vaccine: vaccine, vaccinesListVM: viewModel, index: indexPath.item)
+        let detailVC = DetailViewController(viewModel: detailVM)
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 }
 

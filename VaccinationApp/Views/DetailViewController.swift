@@ -8,16 +8,18 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-    private let vaccine: Vaccine
+    private let viewModel: DetailViewModel
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     private let nameLabel = UILabel()
     private let titleLabel = UILabel()
     private let linkButton = UIButton(type: .system)
     private let sectionLabel = UILabel()
+    private var nextDoseView: NextDoseView?
+    private let dosesStack = UIStackView()
     
-    init(vaccine: Vaccine) {
-        self.vaccine = vaccine
+    init(viewModel: DetailViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -32,6 +34,8 @@ class DetailViewController: UIViewController {
         setupHeader()
         setupLinkButton()
         setupSectionLabel()
+        setupNextDoseSection()
+        setupTakenDoses()
     }
     
     override func viewDidLayoutSubviews() {
@@ -42,6 +46,7 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = Constants.Strings.vaccination
+        reloadDoseRows()
     }
     
     private func setupScrollView() {
@@ -72,7 +77,7 @@ class DetailViewController: UIViewController {
         contentView.addSubview(nameLabel)
         
         titleLabel.font = Constants.Fonts.boldHeader
-        titleLabel.text = vaccine.name
+        titleLabel.text = viewModel.vaccine.name
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(titleLabel)
         
@@ -113,7 +118,7 @@ class DetailViewController: UIViewController {
     }
     
     private func setupSectionLabel() {
-        guard !vaccine.takenDoses.isEmpty else { return }
+        guard !viewModel.vaccine.takenDoses.isEmpty else { return }
         
         sectionLabel.font = Constants.Fonts.regularTitle
         sectionLabel.text = Constants.Strings.appliedDoses
@@ -124,6 +129,48 @@ class DetailViewController: UIViewController {
             sectionLabel.topAnchor.constraint(equalTo: linkButton.bottomAnchor, constant: 20),
             sectionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.Spacing.padding),
         ])
+    }
+    
+    private func setupNextDoseSection() {
+        guard let last = viewModel.lastTakenDate, viewModel.hasPendingDose else { return }
+        if let nextDate = Calendar.current.date(byAdding: .year, value: 5, to: last) {
+            let banner = NextDoseView(date: nextDate)
+            banner.translatesAutoresizingMaskIntoConstraints = false
+            contentView.addSubview(banner)
+            nextDoseView = banner
+            
+            NSLayoutConstraint.activate([
+                banner.topAnchor.constraint(equalTo: sectionLabel.bottomAnchor, constant: Constants.Spacing.padding),
+                banner.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.Spacing.padding),
+                banner.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.Spacing.padding),
+                banner.heightAnchor.constraint(equalToConstant: CGFloat(100))
+            ])
+        }
+    }
+    
+    private func setupTakenDoses() {
+        dosesStack.axis = .vertical
+        dosesStack.spacing = 8
+        dosesStack.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(dosesStack)
+        
+        let topAnchor = (nextDoseView != nil)
+        ? nextDoseView!.bottomAnchor
+        : sectionLabel.bottomAnchor
+        
+        NSLayoutConstraint.activate([
+            dosesStack.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            dosesStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.Spacing.padding),
+            dosesStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.Spacing.padding),
+            dosesStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24),
+        ])
+    }
+    
+    private func reloadDoseRows() {
+        loadViewIfNeeded()
+        dosesStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        viewModel.vaccine.takenDoses
+            .forEach { dosesStack.addArrangedSubview(DoseView(dose: $0)) }
     }
     
     @objc private func openDoktor() {
