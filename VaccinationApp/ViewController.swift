@@ -70,5 +70,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let width = (collectionView.bounds.width - totalSpacing) / 2
         return CGSize(width: floor(width), height: floor(width * Constants.Spacing.cellAspectRatio))
     }
+    
+    func collectionView(_ cv: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vaccine = viewModel.vaccine(at: indexPath.item)
+        let detailVC = DetailViewController(vaccine: vaccine)
+      navigationController?.pushViewController(detailVC, animated: true)
+    }
 }
 
