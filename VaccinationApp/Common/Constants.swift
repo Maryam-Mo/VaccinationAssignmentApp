@@ -15,15 +15,19 @@ struct Constants {
     struct Fonts {
         static let regularTitle = UIFont.systemFont(ofSize: 18, weight: .regular)
         static let regularSubtitle = UIFont.systemFont(ofSize: 15, weight: .regular)
+        static let lightHeader = UIFont.systemFont(ofSize: 16, weight: .light)
+        static let boldHeader = UIFont.systemFont(ofSize: 32, weight: .bold)
     }
     
     struct Strings {
         static let vaccination = "Vaccinationer"
         static let takenDoses = "Tagna doser"
+        static let username = "Maryam Moein"
     }
     
     struct Spacing {
         static let cellAspectRatio: CGFloat = 0.6
+        static let padding: CGFloat = 16
     }
     
     struct Identifiers {
