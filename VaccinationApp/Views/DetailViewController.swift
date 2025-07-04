@@ -132,6 +132,9 @@ class DetailViewController: UIViewController, AddVaccinationDelegate {
             sectionLabel.topAnchor.constraint(equalTo: linkButton.bottomAnchor, constant: 20),
             sectionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.Spacing.padding),
         ])
+        
+        sectionLabel.accessibilityIdentifier = "sectionLabel"
+
     }
     
     private func setupNextDoseSection() {
@@ -178,6 +181,7 @@ class DetailViewController: UIViewController, AddVaccinationDelegate {
     }
     
     private func setupAddButton() {
+        addButton.accessibilityIdentifier = "addDoseButton"
         addButton.setTitle(Constants.Strings.addDose, for: .normal)
         addButton.titleLabel?.font = Constants.Fonts.subtitle
         addButton.setTitleColor(.white, for: .normal)

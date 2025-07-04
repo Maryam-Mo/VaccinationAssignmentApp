@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AddVaccinationViewController: UIViewController {
+class AddVaccinationViewController: UIViewController, UITextFieldDelegate {
     private let vaccine: Vaccine
     private var selectedDose: String?
     private var selectedDate: Date?
@@ -146,7 +146,8 @@ class AddVaccinationViewController: UIViewController {
         dateField.backgroundColor = Constants.Colors.lightGreen
         dateField.layer.cornerRadius = 4
         dateField.textInsets = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
-        
+        dateField.delegate = self
+
         clinicField.placeholder = Constants.Strings.clinicPlaceholder
         clinicField.backgroundColor = Constants.Colors.background
         clinicField.borderStyle = .none
@@ -159,6 +160,10 @@ class AddVaccinationViewController: UIViewController {
         saveButton.backgroundColor = Constants.Colors.darkGreen
         saveButton.tintColor = UIColor.black
         saveButton.titleLabel?.font = Constants.Fonts.subtitle
+        
+        dosePicker.accessibilityIdentifier = "dosePickerButton"
+        dateField.accessibilityIdentifier = "dateField"
+        saveButton.accessibilityIdentifier = "saveButton"
     }
     
     private func setupDosePickerMenu() {
@@ -215,5 +220,22 @@ class AddVaccinationViewController: UIViewController {
         let clinic = clinicField.text?.isEmpty == false ? clinicField.text : nil
         let dose = Dose(title: title, addedBy: Constants.Strings.byYou, date: date, clinic: clinic)
         delegate?.addVaccinationViewController(vc: self, dose: dose)
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+      if textField === dateField {
+          selectedDate = datePicker.date
+          updateDateFieldText()
+      }
+      return true
+    }
+
+    private func updateDateFieldText() {
+        guard let date = selectedDate else { return }
+        let df = DateFormatter()
+        df.locale = Locale(identifier: "sv_SE")
+        df.dateFormat = "d MMMM, yyyy"
+        dateField.text = df.string(from: date)
+        updateSaveButtonState()
     }
 }

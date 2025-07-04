@@ -22,7 +22,7 @@ class DetailViewModel {
     }
     
     var hasPendingDose: Bool {
-        vaccine.totalCount > vaccine.takenCount
+        vaccine.pendingDoses.count > 0
     }
     
     var lastTakenDate: Date? {
